@@ -25,9 +25,6 @@ class pokeGUI:
         self.button = tk.Button(self.root, text="Get Information", command=self.getInfo, font=('Arial', 20)) 
         self.button.pack(padx=10, pady=10)
 
-        self.button = tk.Button(self.root, text="Display Information", command=self.showInfo, font=('Arial', 20))
-        self.button.pack(padx=10, pady=10)
-
         self.root.mainloop()
 
     def getInfo(self):
@@ -37,12 +34,14 @@ class pokeGUI:
         pName = pokemon_info['forms'][0]['name']
         pType = pokemon_info['types'][0]['type']['name']
 
-        print(f"Name of the Pokemon is : {pName.title()}")
-        print(f"Type of the Pokemon is : {pType.title()}")
-
-    def showInfo(self):
-        label = tk.Label(self.root, text="This is a test.")
+        label = tk.Label(self.root, text=f"Name : {pName.title()}", font=('Arial', 20))
         label.pack(padx=10,pady=10)
+
+        label = tk.Label(self.root, text=f"Type : {pType.title()}", font=('Arial', 20))
+        label.pack(padx=10,pady=10)
+
+        print(f"Name of the Pokemon is : {pName.title()}")
+        print(f"Type of the Pokemon is : {pType.title()}")       
 
     def get_pokemon_info(self, name):
         url = f"{self.base_url}/pokemon/{name}"
