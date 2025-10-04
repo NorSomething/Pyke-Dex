@@ -25,6 +25,12 @@ class pokeGUI:
         self.button = tk.Button(self.root, text="Get Information", command=self.getInfo, font=('Arial', 20)) 
         self.button.pack(padx=10, pady=10)
 
+        self.label_name = tk.Label(self.root, text="") #just declaring label here
+        self.label_name.pack(padx=10,pady=10)
+
+        self.label_type = tk.Label(self.root, text="")
+        self.label_type.pack(padx=10, pady=10)
+
         self.root.mainloop()
 
     def getInfo(self):
@@ -34,12 +40,10 @@ class pokeGUI:
         pName = pokemon_info['forms'][0]['name']
         pType = pokemon_info['types'][0]['type']['name']
 
-        label = tk.Label(self.root, text=f"Name : {pName.title()}", font=('Arial', 20))
-        label.pack(padx=10,pady=10)
-
-        label = tk.Label(self.root, text=f"Type : {pType.title()}", font=('Arial', 20))
-        label.pack(padx=10,pady=10)
-
+        self.label_name.config(text=f"Name : {pName.title()}", font=('Arial', 20)) #modifying the label per function call
+       
+        self.label_type.config(text=f"Type : {pType.title()}", font=('Arial', 20)) #not including self.root here as im just modifying the label?
+        
         print(f"Name of the Pokemon is : {pName.title()}")
         print(f"Type of the Pokemon is : {pType.title()}")       
 
