@@ -2,6 +2,7 @@ import requests
 import tkinter as tk
 from tkinter import messagebox
 from tkinter import PhotoImage
+from PIL import Image, ImageTk
 
 class pokeGUI:
 
@@ -11,7 +12,7 @@ class pokeGUI:
 
         self.root = tk.Tk()
 
-        self.root.geometry('800x600')
+        self.root.geometry('1800x1200')
 
         self.root.title("Poke-GUI")
 
@@ -21,7 +22,7 @@ class pokeGUI:
         self.textbox = tk.Text(self.root, height=1, font=('Arial', 25))
         self.textbox.pack(padx=200,pady=10)
 
-        self.checkState = tk.IntVar()
+        self.checkState = tk.IntVar() #check if button is clicked
 
         self.button = tk.Button(self.root, text="Get Information", command=self.getInfo, font=('Arial', 20)) 
         self.button.pack(padx=10, pady=10)
@@ -93,7 +94,8 @@ class pokeGUI:
     def show_sprites(self, url):
         response = requests.get(url)
         self.sprite_image = tk.PhotoImage(data=response.content)
-        self.label_sprite.config(image=self.sprite_image, text="")
+        self.sprite_image_resized = self.sprite_image.zoom(3,3) #Xx and Yx (multipliyers), only integer multiplyers
+        self.label_sprite.config(image=self.sprite_image_resized, text="")
 
 
 
