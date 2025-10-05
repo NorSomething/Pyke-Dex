@@ -1,6 +1,7 @@
 import requests
 import tkinter as tk
 from tkinter import messagebox
+from tkinter import PhotoImage
 
 class pokeGUI:
 
@@ -25,6 +26,9 @@ class pokeGUI:
         self.button = tk.Button(self.root, text="Get Information", command=self.getInfo, font=('Arial', 20)) 
         self.button.pack(padx=10, pady=10)
 
+        self.label_sprite = tk.Label(self.root) #to keep reference
+        self.label_sprite.pack(padx=10, pady=10)
+
         self.label_name = tk.Label(self.root, text="") #just declaring label here
         self.label_name.pack(padx=10,pady=10, anchor='w')
 
@@ -36,6 +40,8 @@ class pokeGUI:
 
         self.label_ability2 = tk.Label(self.root, text="", cursor='hand2')
         self.label_ability2.pack(padx=10, pady=10, anchor='w')
+
+        
 
         self.root.mainloop()
 
@@ -56,6 +62,9 @@ class pokeGUI:
 
         self.label_ability2.config(text=f"Ability 2 : {pAbility2.title()}", font=('Arial', 20))
         self.label_ability2.bind("<Button-1>", self.show_ability2_info)
+
+        sprite_url = self.pokemon_info['sprites']['front_default']
+        self.show_sprites(sprite_url)
 
         #print(f"Name of the Pokemon is : {pName.title()}")
         #print(f"Type of the Pokemon is : {pType.title()}")
@@ -79,6 +88,13 @@ class pokeGUI:
         ability_details = ability_data['effect_entries'][1]['effect']
 
         messagebox.showinfo("Popup", ability_details)  
+
+    
+    def show_sprites(self, url):
+        response = requests.get(url)
+        self.sprite_image = tk.PhotoImage(data=response.content)
+        self.label_sprite.config(image=self.sprite_image, text="")
+
 
 
     def get_pokemon_info(self, name):
