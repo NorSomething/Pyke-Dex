@@ -2,7 +2,7 @@ import requests
 import tkinter as tk
 from tkinter import messagebox
 from tkinter import PhotoImage
-from PIL import Image, ImageTk
+
 
 class pokeGUI:
 
@@ -27,7 +27,7 @@ class pokeGUI:
         self.button = tk.Button(self.root, text="Get Information", command=self.getInfo, font=('Arial', 20)) 
         self.button.pack(padx=10, pady=10)
 
-        self.label_sprite = tk.Label(self.root) #to keep reference
+        self.label_sprite = tk.Label(self.root) 
         self.label_sprite.pack(padx=10, pady=10)
 
         self.label_name = tk.Label(self.root, text="") #just declaring label here
@@ -67,9 +67,6 @@ class pokeGUI:
         sprite_url = self.pokemon_info['sprites']['front_default']
         self.show_sprites(sprite_url)
 
-        #print(f"Name of the Pokemon is : {pName.title()}")
-        #print(f"Type of the Pokemon is : {pType.title()}")
-
     def show_ability1_info(self, event):
         #to get info out of ability, need to request the url inside the abilities key dict    
         url = self.pokemon_info['abilities'][0]['ability']['url']
@@ -90,14 +87,11 @@ class pokeGUI:
 
         messagebox.showinfo("Popup", ability_details)  
 
-    
     def show_sprites(self, url):
         response = requests.get(url)
         self.sprite_image = tk.PhotoImage(data=response.content)
         self.sprite_image_resized = self.sprite_image.zoom(3,3) #Xx and Yx (multipliyers), only integer multiplyers
         self.label_sprite.config(image=self.sprite_image_resized, text="")
-
-
 
     def get_pokemon_info(self, name):
         url = f"{self.base_url}/pokemon/{name}"
