@@ -18,16 +18,16 @@ class pokeGUI:
 
         self.root.title("Poke-GUI")
 
-        self.label = ctk.CTkLabel(self.root, text="Poke-GUI", font=('Arial', 35))
+        self.label = ctk.CTkLabel(self.root, text="Poke-GUI", font=('Arial', 55))
         self.label.pack(padx=10, pady=10)
 
-        self.textbox = ctk.CTkTextbox(self.root, height=1, font=('Arial', 25))
-        self.textbox.pack(padx=200,pady=10)
+        self.textbox = ctk.CTkTextbox(self.root, height=10, font=('Arial', 45))
+        self.textbox.pack(padx=10,pady=10)
 
         self.checkState = ctk.IntVar() #check if button is clicked
 
-        self.button = ctk.CTkButton(self.root, text="Get Information", command=self.getInfo, font=('Arial', 20)) 
-        self.button.pack(padx=10, pady=10)
+        self.button = ctk.CTkButton(self.root, text="Get Information", command=self.getInfo, font=('Arial', 30)) 
+        self.button.pack(padx=20, pady=10)
 
         self.label_sprite = ctk.CTkLabel(self.root, text="") 
         self.label_sprite.pack(padx=10, pady=10)
@@ -57,13 +57,13 @@ class pokeGUI:
         pAbility1 = self.pokemon_info['abilities'][0]['ability']['name']
         pAbility2 = self.pokemon_info['abilities'][1]['ability']['name']
 
-        self.label_name.configure(text=f"Name : {pName.title()}", font=('Arial', 20)) #modifying the label per function call
-        self.label_type.configure(text=f"Type : {pType.title()}", font=('Arial', 20)) #not including self.root here as im just modifying the label?
+        self.label_name.configure(text=f"Name : {pName.title()}", font=('Arial', 35)) #modifying the label per function call
+        self.label_type.configure(text=f"Type : {pType.title()}", font=('Arial', 35)) #not including self.root here as im just modifying the label?
 
-        self.label_ability1.configure(text=f"Ability 1 : {pAbility1.title()}", font=('Arial', 20))
+        self.label_ability1.configure(text=f"Ability 1 : {pAbility1.title()}", font=('Arial', 35))
         self.label_ability1.bind("<Button-1>", self.show_ability1_info) #binding mb1 to func call
 
-        self.label_ability2.configure(text=f"Ability 2 : {pAbility2.title()}", font=('Arial', 20))
+        self.label_ability2.configure(text=f"Ability 2 : {pAbility2.title()}", font=('Arial', 35))
         self.label_ability2.bind("<Button-1>", self.show_ability2_info)
 
         sprite_url = self.pokemon_info['sprites']['front_default']
@@ -93,7 +93,7 @@ class pokeGUI:
         response = requests.get(url)
         self.sprite_image = tk.PhotoImage(data=response.content)
         #self.sprite_image = PhotoImage(data=response.content)
-        self.sprite_image_resized = self.sprite_image.zoom(3,3) #Xx and Yx (multipliyers), only integer multiplyers
+        self.sprite_image_resized = self.sprite_image.zoom(4,4) #Xx and Yx (multipliyers), only integer multiplyers
         self.label_sprite.configure(image=self.sprite_image_resized, text="")
 
     def get_pokemon_info(self, name):
