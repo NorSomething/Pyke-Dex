@@ -32,15 +32,15 @@ class pokeGUI:
         #self.sprite_frame = ctk.CTkFrame(self.info_frame)
         #self.sprite_frame.pack(padx=20, pady=10, fill="x")
 
-        self.label = ctk.CTkLabel(self.top_frame, text="Poke-GUI", font=('Arial', 55))
+        self.label = ctk.CTkLabel(self.top_frame, text="Poke-GUI", font=('Arnoldboecklin', 55))
         self.label.pack(padx=10, pady=10)
 
-        self.textbox = ctk.CTkTextbox(self.top_frame, width=500, height=10, font=('Arial', 45))
+        self.textbox = ctk.CTkTextbox(self.top_frame, width=500, height=10, font=('Arnoldboecklin', 45))
         self.textbox.pack(padx=10,pady=10)
 
         self.checkState = ctk.IntVar() #check if button is clicked
 
-        self.button = ctk.CTkButton(self.top_frame, text="Get Information", command=self.getInfo, font=('Arial', 30)) 
+        self.button = ctk.CTkButton(self.top_frame, text="Get Information", command=self.getInfo, font=('ArnoldboecklinKalinga', 30)) 
         self.button.pack(padx=20, pady=10)
 
         self.sprite_name_frame = ctk.CTkFrame(self.info_frame)
@@ -70,17 +70,21 @@ class pokeGUI:
         self.ability_frame = ctk.CTkFrame(self.lower_frame)
         self.ability_frame.pack(side='right', padx=10, pady=10, fill='both', expand=True)
 
+        self.label_ability1_heading = ctk.CTkLabel(self.ability_frame, text="", cursor='hand2')
+        self.label_ability1_heading.grid(row=0, column = 0, padx=10, pady=10)
         self.label_ability1 = ctk.CTkLabel(self.ability_frame, text="", cursor='hand2')
-        self.label_ability1.grid(row=0, column=0, padx=10, pady=10, sticky='w')
+        self.label_ability1.grid(row=0, column=1, padx=10, pady=10, sticky='e')
 
-        self.label_ability1_info = ctk.CTkLabel(self.ability_frame, text="", font=('Arial', 25))
-        self.label_ability1_info.grid(row=0, column=1, padx=10, pady=10, sticky='w')
+        #self.label_ability1_info = ctk.CTkLabel(self.ability_frame, text="", font=('Arial', 25))
+        #self.label_ability1_info.grid(row=0, column=1, padx=10, pady=10, sticky='e')
 
+        self.label_ability2_heading = ctk.CTkLabel(self.ability_frame, text="")
+        self.label_ability2_heading.grid(row = 1, column = 0, padx=10, pady=10)
         self.label_ability2 = ctk.CTkLabel(self.ability_frame, text="", cursor='hand2')
-        self.label_ability2.grid(row=1, column=0, padx=10, pady=10, sticky='w')
+        self.label_ability2.grid(row=1, column=1, padx=10, pady=10, sticky='e')
 
-        self.label_ability2_info = ctk.CTkLabel(self.ability_frame, text="", font=('Arial', 25))
-        self.label_ability2_info.grid(row=1, column=1, padx=10, pady=10, sticky='w')
+        #self.label_ability2_info = ctk.CTkLabel(self.ability_frame, text="", font=('Arial', 25))
+        #self.label_ability2_info.grid(row=1, column=1, padx=10, pady=10, sticky='e')
 
         
 
@@ -99,12 +103,14 @@ class pokeGUI:
 
         if len(abilities) > 0: #why == 0 and == 1 not work?
             pAbility1 = self.pokemon_info['abilities'][0]['ability']['name']
-            self.label_ability1.configure(text=f"Ability 1 : {pAbility1.title()}", font=('Arial', 25))
+            self.label_ability1_heading.configure(text="Ability 1 : ", font=('Kalinga', 40))
+            self.label_ability1.configure(text=f"{pAbility1.title()}", font=('Arial', 25))
             self.label_ability1.bind("<Button-1>", self.show_ability1_info) #binding mb1 to func call
         
         if len(abilities) > 1:
             pAbility2 = self.pokemon_info['abilities'][1]['ability']['name']    
-            self.label_ability2.configure(text=f"Ability 2 : {pAbility2.title()}", font=('Arial', 25))
+            self.label_ability2_heading.configure(text="Ability 2 : ", font=('Kalinga', 40))
+            self.label_ability2.configure(text=f"{pAbility2.title()}", font=('Arial', 25))
             self.label_ability2.bind("<Button-1>", self.show_ability2_info)    
 
         sprite_url = self.pokemon_info['sprites']['front_default']
