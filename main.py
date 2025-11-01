@@ -3,6 +3,8 @@ import tkinter as tk
 from tkinter import messagebox
 from tkinter import PhotoImage
 import customtkinter as ctk
+from PIL import Image, ImageTk  
+import io 
 
 
 class pokeGUI:
@@ -33,7 +35,7 @@ class pokeGUI:
         self.label = ctk.CTkLabel(self.top_frame, text="Poke-GUI", font=('Arial', 55))
         self.label.pack(padx=10, pady=10)
 
-        self.textbox = ctk.CTkTextbox(self.top_frame, height=10, font=('Arial', 45))
+        self.textbox = ctk.CTkTextbox(self.top_frame, width=500, height=10, font=('Arial', 45))
         self.textbox.pack(padx=10,pady=10)
 
         self.checkState = ctk.IntVar() #check if button is clicked
@@ -90,17 +92,20 @@ class pokeGUI:
 
         pName = self.pokemon_info['forms'][0]['name']
         pType = self.pokemon_info['types'][0]['type']['name']
-        pAbility1 = self.pokemon_info['abilities'][0]['ability']['name']
-        pAbility2 = self.pokemon_info['abilities'][1]['ability']['name']
+        abilities = self.pokemon_info['abilities']
 
         self.label_name.configure(text=f"{pName.title()}", font=('Arial', 25)) #modifying the label per function call
         self.label_type.configure(text=f"Type : {pType.title()}", font=('Arial', 25)) #not including self.root here as im just modifying the label?
 
-        self.label_ability1.configure(text=f"Ability 1 : {pAbility1.title()}", font=('Arial', 25))
-        self.label_ability1.bind("<Button-1>", self.show_ability1_info) #binding mb1 to func call
-
-        self.label_ability2.configure(text=f"Ability 2 : {pAbility2.title()}", font=('Arial', 25))
-        self.label_ability2.bind("<Button-1>", self.show_ability2_info)
+        if len(abilities) > 0: #why == 0 and == 1 not work?
+            pAbility1 = self.pokemon_info['abilities'][0]['ability']['name']
+            self.label_ability1.configure(text=f"Ability 1 : {pAbility1.title()}", font=('Arial', 25))
+            self.label_ability1.bind("<Button-1>", self.show_ability1_info) #binding mb1 to func call
+        
+        if len(abilities) > 1:
+            pAbility2 = self.pokemon_info['abilities'][1]['ability']['name']    
+            self.label_ability2.configure(text=f"Ability 2 : {pAbility2.title()}", font=('Arial', 25))
+            self.label_ability2.bind("<Button-1>", self.show_ability2_info)    
 
         sprite_url = self.pokemon_info['sprites']['front_default']
         self.show_sprites(sprite_url)
@@ -129,10 +134,19 @@ class pokeGUI:
 
     def show_sprites(self, url):
         response = requests.get(url)
-        self.sprite_image = tk.PhotoImage(data=response.content)
+        #self.sprite_image = tk.PhotoImage(data=response.content)
         #self.sprite_image = PhotoImage(data=response.content)
-        self.sprite_image_resized = self.sprite_image.zoom(3,3) #Xx and Yx (multipliyers), only integer multiplyers
-        self.label_sprite.configure(image=self.sprite_image_resized, text="")
+        ##self.sprite_image_resized = self.sprite_image.zoom(3,3) #Xx and Yx (multipliyers), only integer multiplyers
+        #self.label_sprite.configure(image=self.sprite_image_resized, width=500, text="")
+
+        if response.status_code == 200:
+            
+            image_data = response.content #gives raw bytes
+            image = Image.open(io.BytesIO(image_data))
+            image = image.resize((320, 240))
+
+            self.sprite_image = ImageTk.PhotoImage(image)
+            self.label_sprite.configure(image=self.sprite_image, text="", width=500)
 
     def get_pokemon_info(self, name):
         url = f"{self.base_url}/pokemon/{name}"
@@ -142,7 +156,8 @@ class pokeGUI:
             pokemon_data = response.json() 
             return (pokemon_data) 
         else:
-            print(f"Failed to retrieve data {response.status_code}")
+            messagebox.showerror("Error", f"Couldn't retreive Pokemon {name}.")
+            return None
 
 pokeGUI()
 
